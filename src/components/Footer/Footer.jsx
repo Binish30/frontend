@@ -6,6 +6,7 @@ import whatsapp_icon from '../assets/whatsapp_icon.png';
 import pintester_icon from '../assets/pintester_icon.png';
 
 const Footer = () =>{
+    const year = new Date();
     return(
         <div className="footer">
             <div className="footer-logo">
@@ -32,7 +33,7 @@ const Footer = () =>{
             </div>
             <div className="footer-copyright">
                 <hr />
-                <p>Copyright @ 2023 © - All Rights Reserved. </p>
+                <p>© {year.getFullYear()}, All rights reserved by Binish Rawal. </p>
             </div>
         </div>
     )
