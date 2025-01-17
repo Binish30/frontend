@@ -1,4 +1,4 @@
-const API_URL = 'https://backend-kohl-xi-73.vercel.app/';  // Use the backend URL here
+const API_URL = 'process.env.REACT_APP_API_URL';  // Use the backend URL here
 
 // Fetch all products
 export const fetchAllProducts = async () => {
