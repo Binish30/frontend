@@ -7,39 +7,61 @@ import { ShopContext } from "../../context/ShopContext";
 import dropdown_icon from '../assets/dropdown_icon.png';
 
 const Navbar = () => {
-
     const [menu, setmenu] = useState("shop");
-    const {getTotalCartItems} = useContext(ShopContext);
-    const menuRef=useRef();
+    const { getTotalCartItems } = useContext(ShopContext);
+    const menuRef = useRef();
 
-    const dropdown_toggle=(e)=>{
-        menuRef.current.classList.toggle('nav-menu-visible');
-        e.target.classList.toggle('open');
-    }
-    
+    const dropdown_toggle = (e) => {
+        // Added conditional check for `e.target` to prevent potential runtime errors
+        if (e.target && e.target.classList) {
+            menuRef.current.classList.toggle('nav-menu-visible');
+            e.target.classList.toggle('open');
+        }
+    };
+
     return (
         <div className="navbar">
             <div className="nav-logo">
                 <img src={logo} alt="" />
-                <p> Shopper</p>
+                <p>Shopper</p>
             </div>
             <img className="nav-dropdown" onClick={dropdown_toggle} src={dropdown_icon} alt="" />
             <ul ref={menuRef} className="nav-menu">
-                <li onClick={()=>{setmenu("shop")}}><Link style={{ textDecoration: 'none'}} to='/'>Shop</Link>{menu==="shop"?<hr/>:<></>}</li>
-                <li onClick={()=>{setmenu("mens")}}><Link style={{ textDecoration: 'none'}} to='/mens'>Men</Link>{menu==="mens"?<hr/>:<></>}</li>
-                <li onClick={()=>{setmenu("womens")}}><Link style={{ textDecoration: 'none'}} to='/womens'>Women</Link>{menu==="womens"?<hr/>:<></>}</li>
-                <li onClick={()=>{setmenu("kids")}}><Link style={{ textDecoration: 'none'}} to='/kids'>Kids</Link>{menu==="kids"?<hr/>:<></>}</li>
+                <li onClick={() => { setmenu("shop") }}>
+                    <Link style={{ textDecoration: 'none' }} to='/'>Shop</Link>
+                    {menu === "shop" ? <hr /> : <></>}
+                </li>
+                <li onClick={() => { setmenu("mens") }}>
+                    <Link style={{ textDecoration: 'none' }} to='/mens'>Men</Link>
+                    {menu === "mens" ? <hr /> : <></>}
+                </li>
+                <li onClick={() => { setmenu("womens") }}>
+                    <Link style={{ textDecoration: 'none' }} to='/womens'>Women</Link>
+                    {menu === "womens" ? <hr /> : <></>}
+                </li>
+                <li onClick={() => { setmenu("kids") }}>
+                    <Link style={{ textDecoration: 'none' }} to='/kids'>Kids</Link>
+                    {menu === "kids" ? <hr /> : <></>}
+                </li>
             </ul>
 
             <div className="nav-login-cart">
-                {localStorage.getItem('auth-token')
-                ?<button onClick={()=>{localStorage.removeItem('auth-token');window.location.replace('/')}}>Logout</button>
-                :<Link to='/login'><button>Login</button></Link>}
+                {localStorage.getItem('auth-token') ? (
+                    // Added confirmation dialog before logout
+                    <button onClick={() => {
+                        if (window.confirm('Are you sure you want to log out?')) {
+                            localStorage.removeItem('auth-token');
+                            window.location.replace('/');
+                        }
+                    }}>Logout</button>
+                ) : (
+                    <Link to='/login'><button>Login</button></Link>
+                )}
                 <Link to='/Cart'><img src={cart_icon} alt="" /></Link>
                 <div className="nav-cart-count">{getTotalCartItems()}</div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Navbar
+export default Navbar;
